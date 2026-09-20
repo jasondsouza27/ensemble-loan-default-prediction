@@ -105,11 +105,15 @@ html, body, [class*="css"] { font-family: 'Inter', -apple-system, sans-serif; }
 .card-title {
     display: flex;
     align-items: center;
-    gap: 7px;
-    font-size: 0.92rem;
+    gap: 8px;
+    font-size: 0.95rem;
     font-weight: 700;
-    color: #0F172A;
-    margin-bottom: 8px;
+    color: var(--text-color, inherit) !important;
+    margin-bottom: 10px;
+}
+.card-title svg {
+    stroke: #38BDF8 !important;
+    flex-shrink: 0;
 }
 
 /* ── decision banners ── */
