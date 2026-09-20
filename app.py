@@ -15,8 +15,7 @@ import sys
 
 # ── Page config ──────────────────────────────────────────────
 st.set_page_config(
-    page_title="Loan Default Risk Prediction",
-    page_icon="🏦",
+    page_title="CreditGuard AI | Loan Default Risk Prediction",
     layout="wide",
     initial_sidebar_state="collapsed",
 )
@@ -32,7 +31,7 @@ from src.explainability import explain_single_loan
 
 def highlight_max_cell(s):
     """
-    Highlights the maximum value with a green pill where both
+    Highlights the maximum value with a green badge where both
     background (#86EFAC) and text color (#022C22) are explicitly set.
     Guarantees full high-contrast readability in both Light and Dark themes.
     """
@@ -58,15 +57,18 @@ html, body, [class*="css"] { font-family: 'Inter', -apple-system, sans-serif; }
 .hero {
     background: linear-gradient(135deg, #0F172A 0%, #1E3A5F 100%);
     color: #fff;
-    padding: 28px 32px 22px;
-    border-radius: 14px;
-    margin-bottom: 20px;
+    padding: 26px 30px 22px;
+    border-radius: 12px;
+    margin-bottom: 18px;
 }
 .hero h1 {
-    font-size: 1.75rem;
+    font-size: 1.7rem;
     font-weight: 800;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.025em;
     margin: 0 0 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 .hero p {
     font-size: 0.88rem;
@@ -81,9 +83,9 @@ html, body, [class*="css"] { font-family: 'Inter', -apple-system, sans-serif; }
     font-size: 0.72rem;
     font-weight: 600;
     border-radius: 9999px;
-    background: rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.10);
     color: #E2E8F0;
-    border: 1px solid rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.16);
 }
 
 /* ── kpi row ── */
@@ -99,6 +101,17 @@ html, body, [class*="css"] { font-family: 'Inter', -apple-system, sans-serif; }
 .kpi-val { font-size: 1.35rem; font-weight: 700; color: #0F172A !important; }
 .kpi-sub { font-size: 0.72rem; color: #334155 !important; font-weight: 500; }
 
+/* ── card headers ── */
+.card-title {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #0F172A;
+    margin-bottom: 8px;
+}
+
 /* ── decision banners ── */
 .verdict-safe {
     background: linear-gradient(135deg, #ECFDF5, #D1FAE5);
@@ -107,9 +120,9 @@ html, body, [class*="css"] { font-family: 'Inter', -apple-system, sans-serif; }
     color: #064E3B !important;
 }
 .verdict-safe * { color: #064E3B !important; }
-.verdict-safe .verdict-title { color: #064E3B !important; }
-.verdict-safe .verdict-prob { color: #047857 !important; }
-.verdict-safe .verdict-note { color: #065F46 !important; font-weight: 500; }
+.verdict-safe .verdict-title { font-size: 1.15rem; font-weight: 800; color: #064E3B !important; margin: 0 0 4px; }
+.verdict-safe .verdict-prob { font-size: 0.92rem; color: #047857 !important; margin: 0 0 3px; }
+.verdict-safe .verdict-note { font-size: 0.82rem; color: #065F46 !important; font-weight: 500; margin: 0; }
 
 .verdict-warn {
     background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
@@ -118,9 +131,9 @@ html, body, [class*="css"] { font-family: 'Inter', -apple-system, sans-serif; }
     color: #78350F !important;
 }
 .verdict-warn * { color: #78350F !important; }
-.verdict-warn .verdict-title { color: #78350F !important; }
-.verdict-warn .verdict-prob { color: #92400E !important; }
-.verdict-warn .verdict-note { color: #78350F !important; font-weight: 500; }
+.verdict-warn .verdict-title { font-size: 1.15rem; font-weight: 800; color: #78350F !important; margin: 0 0 4px; }
+.verdict-warn .verdict-prob { font-size: 0.92rem; color: #92400E !important; margin: 0 0 3px; }
+.verdict-warn .verdict-note { font-size: 0.82rem; color: #78350F !important; font-weight: 500; margin: 0; }
 
 .verdict-deny {
     background: linear-gradient(135deg, #FEF2F2, #FEE2E2);
@@ -129,25 +142,21 @@ html, body, [class*="css"] { font-family: 'Inter', -apple-system, sans-serif; }
     color: #7F1D1D !important;
 }
 .verdict-deny * { color: #7F1D1D !important; }
-.verdict-deny .verdict-title { color: #7F1D1D !important; }
-.verdict-deny .verdict-prob { color: #991B1B !important; }
-.verdict-deny .verdict-note { color: #7F1D1D !important; font-weight: 500; }
-
-.verdict-title { font-size: 1.15rem; font-weight: 700; margin: 0 0 4px; }
-.verdict-prob  { font-size: 0.92rem; margin: 0 0 3px; }
-.verdict-note  { font-size: 0.8rem; margin: 0; }
+.verdict-deny .verdict-title { font-size: 1.15rem; font-weight: 800; color: #7F1D1D !important; margin: 0 0 4px; }
+.verdict-deny .verdict-prob { font-size: 0.92rem; color: #991B1B !important; margin: 0 0 3px; }
+.verdict-deny .verdict-note { font-size: 0.82rem; color: #7F1D1D !important; font-weight: 500; margin: 0; }
 
 /* ── section labels ── */
 .sec-label {
-    font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+    font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
     letter-spacing: 0.06em; color: #94A3B8; margin-bottom: 8px;
 }
 
 /* ── tabs ── */
-.stTabs [data-baseweb="tab-list"] { gap: 4px; }
+.stTabs [data-baseweb="tab-list"] { gap: 6px; }
 .stTabs [data-baseweb="tab"] {
     font-weight: 600; font-size: 0.85rem;
-    padding: 8px 16px; border-radius: 6px 6px 0 0;
+    padding: 8px 18px; border-radius: 6px 6px 0 0;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -168,13 +177,18 @@ bundle, preprocessor, selected_features, shap_explainer = load_pipeline()
 # ── Hero header ──────────────────────────────────────────────
 st.markdown("""
 <div class="hero">
-    <h1>🏦 Ensemble-Based Loan Default Risk Prediction</h1>
-    <p>Implementation of Akinjole et al. (MDPI Mathematics 2024, 12, 3423) — Stacking Ensemble with SMOTE+ENN, Robust Scaling & SHAP Explainability</p>
+    <h1>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        Ensemble-Based Loan Default Risk Prediction
+    </h1>
+    <p>Replication & Production Architecture of Akinjole et al. (MDPI Mathematics 2024, 12, 3423) — Stacking Ensemble with SMOTE+ENN & SHAP Interpretability</p>
     <div class="hero-pills">
         <span class="pill">Stacking Classifier</span>
-        <span class="pill">SMOTE + ENN</span>
+        <span class="pill">SMOTE + ENN Resampling</span>
         <span class="pill">RFECV Feature Selection</span>
-        <span class="pill">XGBoost · RF · MLP · SVM · DT · AdaBoost</span>
+        <span class="pill">XGBoost · Random Forest · MLP · SVM · DT · AdaBoost</span>
         <span class="pill">SHAP Explainability</span>
     </div>
 </div>
@@ -184,7 +198,7 @@ st.markdown("""
 st.markdown("""
 <div class="kpi-row">
     <div class="kpi">
-        <div class="kpi-lbl">Champion Model</div>
+        <div class="kpi-lbl">Champion Architecture</div>
         <div class="kpi-val">Stacking A</div>
         <div class="kpi-sub">LogReg Meta-Learner</div>
     </div>
@@ -213,10 +227,10 @@ st.markdown("""
 
 # ── Tabs ─────────────────────────────────────────────────────
 tab1, tab2, tab3, tab4 = st.tabs([
-    "🎯  Risk Assessment",
-    "📊  Research Benchmarks",
-    "🧬  Methodology",
-    "📁  Portfolio Scoring",
+    "Risk Assessment",
+    "Research Benchmarks",
+    "Methodology & Architecture",
+    "Portfolio Scoring",
 ])
 
 # ═════════════════════════════════════════════════════════════
@@ -227,17 +241,17 @@ with tab1:
     # ── Quick-fill selector ──
     st.markdown('<div class="sec-label">Applicant Profile Template</div>', unsafe_allow_html=True)
     preset = st.radio(
-        "Select a preset to auto-fill the form, or choose Custom:",
-        ["🟢 Prime Borrower", "🟡 Borderline", "🔴 Subprime", "✏️ Custom"],
+        "Select a preset profile to auto-fill the form, or choose Custom:",
+        ["Prime Borrower (Low Risk)", "Borderline Applicant (Moderate Risk)", "Subprime Borrower (High Risk)", "Custom Application"],
         horizontal=True,
         label_visibility="collapsed",
     )
 
     presets = {
-        "🟢 Prime Borrower":  dict(amt=12000, trm=" 36 months", rate=7.5, inc=95000, dti=11.5, fico=780, home="MORTGAGE", verif="Source Verified", dlq=0, bc75=10.0, bkr=0, purp="credit_card"),
-        "🟡 Borderline":      dict(amt=16000, trm=" 36 months", rate=14.2, inc=56000, dti=23.5, fico=685, home="RENT",     verif="Verified",        dlq=0, bc75=45.0, bkr=0, purp="debt_consolidation"),
-        "🔴 Subprime":        dict(amt=28000, trm=" 60 months", rate=24.5, inc=34000, dti=39.5, fico=630, home="RENT",     verif="Not Verified",    dlq=2, bc75=85.0, bkr=1, purp="small_business"),
-        "✏️ Custom":          dict(amt=15000, trm=" 36 months", rate=12.5, inc=65000, dti=16.5, fico=710, home="MORTGAGE", verif="Verified",        dlq=0, bc75=25.0, bkr=0, purp="debt_consolidation"),
+        "Prime Borrower (Low Risk)":  dict(amt=12000, trm=" 36 months", rate=7.5, inc=95000, dti=11.5, fico=780, home="MORTGAGE", verif="Source Verified", dlq=0, bc75=10.0, bkr=0, purp="credit_card"),
+        "Borderline Applicant (Moderate Risk)":      dict(amt=16000, trm=" 36 months", rate=14.2, inc=56000, dti=23.5, fico=685, home="RENT",     verif="Verified",        dlq=0, bc75=45.0, bkr=0, purp="debt_consolidation"),
+        "Subprime Borrower (High Risk)":        dict(amt=28000, trm=" 60 months", rate=24.5, inc=34000, dti=39.5, fico=630, home="RENT",     verif="Not Verified",    dlq=2, bc75=85.0, bkr=1, purp="small_business"),
+        "Custom Application":          dict(amt=15000, trm=" 36 months", rate=12.5, inc=65000, dti=16.5, fico=710, home="MORTGAGE", verif="Verified",        dlq=0, bc75=25.0, bkr=0, purp="debt_consolidation"),
     }
     P = presets[preset]
 
@@ -247,7 +261,12 @@ with tab1:
 
     with c1:
         with st.container(border=True):
-            st.markdown("**💰 Loan Terms**")
+            st.markdown("""
+            <div class="card-title">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.5"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                Loan Terms & Structure
+            </div>
+            """, unsafe_allow_html=True)
             loan_amnt = st.number_input("Loan amount (USD)", 1000, 50000, P["amt"], 500)
             term = st.selectbox("Term", [" 36 months", " 60 months"], 0 if "36" in P["trm"] else 1)
             int_rate = st.slider("Interest rate %", 5.0, 32.0, float(P["rate"]), 0.1)
@@ -261,7 +280,12 @@ with tab1:
 
     with c2:
         with st.container(border=True):
-            st.markdown("**👤 Borrower Profile**")
+            st.markdown("""
+            <div class="card-title">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.5"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Borrower & Financial Profile
+            </div>
+            """, unsafe_allow_html=True)
             annual_inc = st.number_input("Annual income (USD)", 10000, 1000000, P["inc"], 5000)
             dti = st.slider("DTI ratio %", 0.0, 60.0, float(P["dti"]), 0.5)
             homes = ["MORTGAGE","RENT","OWN","OTHER"]
@@ -273,7 +297,12 @@ with tab1:
 
     with c3:
         with st.container(border=True):
-            st.markdown("**📋 Credit History**")
+            st.markdown("""
+            <div class="card-title">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                Credit Bureau History
+            </div>
+            """, unsafe_allow_html=True)
             fico_range_low = st.slider("FICO score", 620, 850, P["fico"], 5)
             delinq_2yrs = st.number_input("Delinquencies (2 yr)", 0, 10, P["dlq"])
             percent_bc_gt_75 = st.slider("Bank-cards > 75 % util.", 0.0, 100.0, float(P["bc75"]), 5.0)
@@ -307,7 +336,7 @@ with tab1:
     st.write("")
     _, btn_c, _ = st.columns([1, 2, 1])
     with btn_c:
-        go = st.button("🚀  Assess Default Risk", type="primary", use_container_width=True)
+        go = st.button("Evaluate Default Risk", type="primary", use_container_width=True)
 
     if go or ("_preset" not in st.session_state) or st.session_state.get("_preset") != preset:
         st.session_state["_preset"] = preset
@@ -325,32 +354,32 @@ with tab1:
         mdls = bundle["models"]
 
         st.divider()
-        st.markdown('<div class="sec-label">Assessment Results</div>', unsafe_allow_html=True)
+        st.markdown('<div class="sec-label">Assessment Findings</div>', unsafe_allow_html=True)
 
         left, right = st.columns([1, 1], gap="large")
 
         with left:
             # verdict banner
             if prob < 0.35:
-                cls, icon, title, clr = "verdict-safe", "✅", "Low Risk — Approved", "#065F46"
-                note = "Meets prime underwriting standards. Fast-track approval recommended."
+                cls, title = "verdict-safe", "APPROVED — LOW DEFAULT RISK"
+                note = "Meets prime institutional underwriting criteria. Automated approval recommended."
             elif prob < 0.60:
-                cls, icon, title, clr = "verdict-warn", "⚠️", "Moderate Risk — Manual Review", "#92400E"
-                note = "Borderline applicant. Consider co-borrower or additional documentation."
+                cls, title = "verdict-warn", "CONDITIONAL — MANUAL REVIEW REQUIRED"
+                note = "Borderline applicant. Request co-borrower or supplementary income verification."
             else:
-                cls, icon, title, clr = "verdict-deny", "❌", "High Risk — Decline", "#991B1B"
-                note = "Elevated charge-off probability. Exceeds institutional risk thresholds."
+                cls, title = "verdict-deny", "DECLINED — ELEVATED DEFAULT RISK"
+                note = "Elevated charge-off likelihood. Risk metrics exceed institutional threshold."
 
             st.markdown(f"""
             <div class="{cls}">
-                <div class="verdict-title" style="color:{clr}">{icon} {title}</div>
-                <div class="verdict-prob" style="color:{clr}">Default probability: <b>{prob*100:.2f} %</b></div>
+                <div class="verdict-title">{title}</div>
+                <div class="verdict-prob">Default probability: <b>{prob*100:.2f} %</b></div>
                 <div class="verdict-note">{note}</div>
             </div>
             """, unsafe_allow_html=True)
 
             # consensus table
-            with st.expander("🏛️ Multi-model consensus", expanded=True):
+            with st.expander("Multi-Model Consensus Breakdown", expanded=True):
                 rows = []
                 for nm in ["XGBoost","Random Forest","MLP","ADABoost","Decision Tree","SVM",
                             "Voting A","Voting B","Stacking A","Stacking B"]:
@@ -361,13 +390,13 @@ with tab1:
                     rows.append({
                         "Model": nm,
                         "P(Default)": f"{p*100:.2f} %",
-                        "Verdict": "❌ Charge-Off" if p >= 0.5 else "✅ Fully Paid",
+                        "Verdict": "Charge-Off (1)" if p >= 0.5 else "Fully Paid (0)",
                     })
                 st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
 
         with right:
-            with st.expander("🔍 SHAP — Why this decision?", expanded=True):
-                st.caption("How each feature pushed the prediction toward Default (+red) or Non-Default (-green).")
+            with st.expander("Explainable AI: SHAP Attribution", expanded=True):
+                st.caption("Decomposing applicant features pushing the model toward Default (+red) or Non-Default (-green).")
                 if shap_explainer:
                     try:
                         df_s = pd.DataFrame(X_in, columns=selected_features)
@@ -387,8 +416,8 @@ with tab1:
                         plt.close(fig)
 
                         st.dataframe(
-                            cdf.head(6)[["Feature","SHAP_Contribution","Impact"]].rename(
-                                columns={"SHAP_Contribution": "SHAP Value"}
+                            cdf.head(6)[["Feature","Applicant_Value","SHAP_Contribution","Impact"]].rename(
+                                columns={"SHAP_Contribution": "SHAP Score"}
                             ),
                             use_container_width=True, hide_index=True,
                         )
@@ -428,7 +457,7 @@ with tab2:
         with rc:
             st.markdown("##### Table 7 — Ensemble architectures")
             st.dataframe(pd.DataFrame({
-                "Ensemble": ["Stacking A ★","Stacking B","Voting B","Voting A"],
+                "Ensemble": ["Stacking A [Champion]","Stacking B","Voting B","Voting A"],
                 "Composition": ["All 6 + LogReg meta","Top 3 + LogReg meta","Top 3 soft vote","All 6 soft vote"],
                 "Accuracy": [.9369,.9188,.9166,.9109],
                 "Precision": [.9559,.9409,.9314,.9099],
@@ -442,9 +471,9 @@ with tab2:
         st.markdown("##### Generated evaluation charts")
         ic1, ic2, ic3 = st.columns(3)
         for col, fname, cap in [
-            (ic1, "roc_all_models.png",        "ROC curves — all models"),
-            (ic2, "auc_comparison_all.png",     "AUC bar comparison"),
-            (ic3, "shap_feature_importance.png","SHAP global feature importance"),
+            (ic1, "roc_all_models.png",        "Figure 12: ROC Curves (All Models)"),
+            (ic2, "auc_comparison_all.png",     "Figure 13: AUC Performance Comparison"),
+            (ic3, "shap_feature_importance.png","Figure 9: Global Feature Importance (SHAP)"),
         ]:
             p = MODELS_DIR / fname
             with col:
@@ -457,7 +486,7 @@ with tab2:
         with lc2:
             st.markdown("##### Table 5 — Resampling benchmark (XGBoost evaluator)")
             st.dataframe(pd.DataFrame({
-                "Method": ["SMOTE + ENN ★","SMOTE-Tomek","SMOTE","ADASYN","ROS","Tomek-Links","None","RUS"],
+                "Method": ["SMOTE + ENN [Champion]","SMOTE-Tomek","SMOTE","ADASYN","ROS","Tomek-Links","None","RUS"],
                 "Accuracy": [.9049,.8762,.8766,.8745,.6874,.7947,.8047,.6500],
                 "Precision": [.9461,.9679,.9684,.9686,.6807,.5368,.5362,.6465],
                 "Recall": [.9202,.7779,.7787,.7690,.7062,.1377,.1101,.6683],
@@ -469,8 +498,8 @@ with tab2:
         with rc2:
             st.markdown("##### Table 3 — Outlier & normalization matrix")
             st.dataframe(pd.DataFrame({
-                "Outlier": ["Winsorize ★","Winsorize","Winsorize","IQR","IQR","Z-Score","Clip"],
-                "Scaler": ["RobustScaler ★","StandardScaler","MinMaxScaler","MinMaxScaler","RobustScaler","RobustScaler","RobustScaler"],
+                "Outlier": ["Winsorize [Selected]","Winsorize","Winsorize","IQR","IQR","Z-Score","Clip"],
+                "Scaler": ["RobustScaler [Selected]","StandardScaler","MinMaxScaler","MinMaxScaler","RobustScaler","RobustScaler","RobustScaler"],
                 "Accuracy": [.8045,.8044,.8040,.8275,.8274,.7963,.8038],
                 "Recall": [.0582,.0584,.0567,.0035,.0031,.0449,.0550],
                 "Precision": [.5664,.5625,.5544,.5882,.5294,.5497,.5516],
@@ -489,7 +518,7 @@ with tab2:
     with sub3:
         st.markdown("##### Table 8 — Comparison with state-of-the-art")
         st.dataframe(pd.DataFrame({
-            "Study": ["This study ★","Madaan et al. (2021)","Ma et al. (2018)","Chang et al. (2018)","Jumaa et al. (2023)"],
+            "Study": ["This study [Proposed]","Madaan et al. (2021)","Ma et al. (2018)","Chang et al. (2018)","Jumaa et al. (2023)"],
             "Resampling": ["SMOTE + ENN","None","None","Cluster US","SMOTE"],
             "Models": ["RF, DT, SVM, XGB, Ada, MLP","RF, DT","LGBM, XGB","LR, SVM, XGB","MLP, SVM, Ada"],
             "Ensemble": ["Stacking A + Voting","—","—","—","—"],
@@ -592,11 +621,11 @@ The paper identifies **48 optimal features** from an initial pool of
 with tab4:
 
     st.markdown('<div class="sec-label">Batch Portfolio Simulation (1,000 Applications)</div>', unsafe_allow_html=True)
-    st.write("Generate and score a realistic institutional portfolio of **1,000 loan applications** using the champion Stacking Ensemble to assess total risk exposure.")
+    st.write("Generate and score an institutional portfolio of **1,000 loan applications** using the champion Stacking Ensemble to assess aggregate risk exposure.")
 
     c_btn1, c_btn2 = st.columns([1, 4])
     with c_btn1:
-        score_clicked = st.button("⚡  Score 1,000 Loans", type="primary", use_container_width=True)
+        score_clicked = st.button("Score 1,000 Loans", type="primary", use_container_width=True)
 
     if score_clicked:
         if bundle and preprocessor and selected_features:
@@ -609,8 +638,7 @@ with tab4:
                 pr = champ.predict_proba(X_b)[:, 1] if hasattr(champ, "predict_proba") else champ.predict(X_b).astype(float)
 
                 df_sim["P(Default) %"] = np.round(pr * 100, 2)
-                df_sim["Verdict"] = np.where(pr < 0.35, "✅ Approve", np.where(pr < 0.60, "⚠️ Review", "❌ Decline"))
-                # Number rows from 1 to 1000 for clarity
+                df_sim["Verdict"] = np.where(pr < 0.35, "Approve", np.where(pr < 0.60, "Review", "Decline"))
                 df_sim.index = range(1, len(df_sim) + 1)
                 st.session_state["df_sim"] = df_sim
         else:
@@ -624,9 +652,9 @@ with tab4:
 
         # Summary KPIs across the 1,000 loans
         k1, k2, k3, k4 = st.columns(4)
-        approve_n = (df_sim["Verdict"].str.contains("Approve")).sum()
-        review_n  = (df_sim["Verdict"].str.contains("Review")).sum()
-        decline_n = (df_sim["Verdict"].str.contains("Decline")).sum()
+        approve_n = (df_sim["Verdict"] == "Approve").sum()
+        review_n  = (df_sim["Verdict"] == "Review").sum()
+        decline_n = (df_sim["Verdict"] == "Decline").sum()
 
         k1.metric("Total Scored Applications", f"{len(df_sim):,}")
         k2.metric("Approved (Low Risk)", f"{approve_n}", f"{approve_n/10:.1f} %")
@@ -639,7 +667,7 @@ with tab4:
         with filter_col:
             v_filter = st.radio(
                 "Filter portfolio view by decision:",
-                ["All (1,000 loans)", f"✅ Approve only ({approve_n})", f"⚠️ Review only ({review_n})", f"❌ Decline only ({decline_n})"],
+                ["All Applications (1,000)", f"Approved ({approve_n})", f"Manual Review ({review_n})", f"Declined ({decline_n})"],
                 horizontal=True
             )
 
@@ -647,7 +675,7 @@ with tab4:
             st.write("")
             csv_data = df_sim.to_csv(index=True, index_label="Application_ID").encode("utf-8")
             st.download_button(
-                "📥 Export CSV (1,000 Loans)",
+                "Export Scored Portfolio (CSV)",
                 data=csv_data,
                 file_name="scored_loan_portfolio_1000.csv",
                 mime="text/csv",
@@ -655,12 +683,12 @@ with tab4:
             )
 
         # Apply filter
-        if "Approve only" in v_filter:
-            view_df = df_sim[df_sim["Verdict"].str.contains("Approve")]
-        elif "Review only" in v_filter:
-            view_df = df_sim[df_sim["Verdict"].str.contains("Review")]
-        elif "Decline only" in v_filter:
-            view_df = df_sim[df_sim["Verdict"].str.contains("Decline")]
+        if "Approved" in v_filter:
+            view_df = df_sim[df_sim["Verdict"] == "Approve"]
+        elif "Manual Review" in v_filter:
+            view_df = df_sim[df_sim["Verdict"] == "Review"]
+        elif "Declined" in v_filter:
+            view_df = df_sim[df_sim["Verdict"] == "Decline"]
         else:
             view_df = df_sim
 

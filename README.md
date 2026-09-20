@@ -14,27 +14,31 @@ A comprehensive Machine Learning system and production-ready implementation of t
 
 ---
 
-## 📸 Dashboard & Project Screenshots
+## Dashboard & System Screenshots
 
-### 1. Interactive Batch Portfolio Simulation & Risk Scoring
-Scoring a 1,000-loan portfolio with real-time default probability, risk tiering, decision filters, and export capabilities.
+### 1. Interactive Risk Assessment & Decision Explainability
+Live applicant underwriting engine featuring instant profile presets, multi-model consensus prediction, and local SHAP force decomposition.
 
-![Batch Portfolio Simulation](assets/portfolio_scoring_dashboard.png)
+| Applicant Input Form & Credit Parameters | Decision Findings, Consensus & SHAP Attribution |
+| :---: | :---: |
+| ![Risk Assessment Form](assets/risk_assessment_form.png) | ![Risk Assessment Findings](assets/risk_assessment_findings.png) |
 
-### 2. Research Benchmark Comparisons & High-Contrast Performance Matrices
-Replicating Table 6 (Individual Classifiers) and Table 7 (Ensemble Architectures) with high-contrast accessibility in Dark and Light modes.
+### 2. Empirical Research Benchmarks & High-Contrast Performance Matrices
+Direct replication of Table 6 (Individual Classifiers) and Table 7 (Ensemble Architectures) with high-contrast accessibility across themes.
 
 ![Research Benchmarks Table](assets/research_benchmarks_table.png)
 
-### 3. Model Evaluation: ROC Curves & AUC Benchmarking
-Evaluating all base classifiers and ensemble architectures, highlighting the superior discrimination of the champion **Stacking A** model.
+### 3. Institutional Batch Portfolio Risk Simulation
+Scoring 1,000 loan applications through the champion Stacking ensemble with default probability calculation, interactive status filters, and one-click CSV export.
+
+![Batch Portfolio Simulation](assets/portfolio_scoring_dashboard.png)
+
+### 4. Model Evaluation & Explainability Visualizations
+Comprehensive ROC curves, AUC benchmarks, recursive feature elimination curves, and global SHAP summary plots.
 
 | Figure 12: ROC Curves (All Classifiers & Ensembles) | Figure 13: Area Under ROC (AUC) Comparison |
 | :---: | :---: |
 | ![ROC Curves](assets/roc_all_models.png) | ![AUC Comparison](assets/auc_comparison_all.png) |
-
-### 4. Explainable AI (SHAP) & Feature Selection (RFECV)
-Global SHAP feature attribution and Recursive Feature Elimination with Cross-Validation optimizing for recall.
 
 | Figure 9: Global SHAP Feature Importance | Figure 8: RFECV Score vs Number of Features |
 | :---: | :---: |
@@ -42,7 +46,7 @@ Global SHAP feature attribution and Recursive Feature Elimination with Cross-Val
 
 ---
 
-## 📌 1. Project Overview & Motivation
+## 1. Project Overview & Motivation
 
 Financial institutions and peer-to-peer (P2P) lending platforms (such as LendingClub) incur substantial financial losses when borrowers default on loans. Predicting default risk—defined as the conditional probability that a borrower will fail to meet loan obligations—is paramount for capital preservation and institutional solvency.
 
@@ -55,7 +59,7 @@ This project implements the end-to-end framework presented in the paper, benchma
 
 ---
 
-## 🏛️ 2. Proposed System Architecture & Workflow
+## 2. Proposed System Architecture & Workflow
 
 The architecture follows a sequential 7-stage pipeline:
 
@@ -90,7 +94,7 @@ flowchart TD
 
 ---
 
-## 🧮 3. Mathematical Formulations
+## 3. Mathematical Formulations
 
 ### 3.1 Skewness & Fisher-Pearson Coefficient
 Missing value imputation is guided by feature distribution symmetry:
@@ -115,7 +119,7 @@ Where $\hat{P}_m(y=1|x)$ represents out-of-fold probability predictions, prevent
 
 ---
 
-## 📊 4. Empirical Paper Benchmarks & Replicated Results
+## 4. Empirical Paper Benchmarks & Replicated Results
 
 ### Table 3: Outlier & Normalization Techniques Comparison
 | Outlier Technique | Normalization Technique | Accuracy | Recall | Precision | AUC |
@@ -182,7 +186,7 @@ Where $\hat{P}_m(y=1|x)$ represents out-of-fold probability predictions, prevent
 
 ---
 
-## 🔍 5. Explainable AI (SHAP Interpretability)
+## 5. Explainable AI (SHAP Interpretability)
 
 Following Section 4.2 and Table A3 of the paper, the system integrates **SHapley Additive exPlanations (SHAP)**:
 - **Global Feature Importance**: Identifies `int_rate` (Interest Rate), `fico_range_low` (Credit Score), `term` (Loan Duration), `percent_bc_gt_75` (Bankcard Utilization), and `dti` (Debt-to-Income) as the primary drivers of loan default.
@@ -190,17 +194,19 @@ Following Section 4.2 and Table A3 of the paper, the system integrates **SHapley
 
 ---
 
-## 💻 6. Project Directory Structure
+## 6. Project Directory Structure
 
 ```
 ensemble-loan-default-prediction/
 ├── assets/                           # UI screenshots and evaluation figures
-│   ├── portfolio_scoring_dashboard.png
-│   ├── research_benchmarks_table.png
-│   ├── roc_all_models.png
-│   ├── auc_comparison_all.png
-│   ├── shap_feature_importance.png
-│   └── rfecv_curve.png
+│   ├── risk_assessment_form.png      # Risk Assessment applicant input form
+│   ├── risk_assessment_findings.png  # Underwriting verdict, consensus & SHAP
+│   ├── research_benchmarks_table.png # Replicated Tables 6 & 7 benchmark matrices
+│   ├── portfolio_scoring_dashboard.png # 1,000-loan batch simulation & export
+│   ├── roc_all_models.png            # ROC Curves across all models
+│   ├── auc_comparison_all.png        # AUC performance bar chart
+│   ├── shap_feature_importance.png   # Global SHAP feature importances
+│   └── rfecv_curve.png               # RFECV feature selection optimization curve
 ├── data/
 │   ├── raw/
 │   │   └── lending_club_sample.csv   # Representative benchmark loan dataset (80:20)
@@ -233,7 +239,7 @@ ensemble-loan-default-prediction/
 
 ---
 
-## 🚀 7. Installation & Execution Guide
+## 7. Installation & Execution Guide
 
 ### Step 1: Clone or Navigate to the Project Directory
 ```powershell
@@ -265,7 +271,7 @@ jupyter notebook notebooks/Loan_Default_Prediction_Study.ipynb
 
 ---
 
-## 📜 8. Citation
+## 8. Citation
 If you reference this work in your academic submissions, please cite:
 ```bibtex
 @article{akinjole2024ensemble,
