@@ -1,0 +1,5 @@
+Model,Accuracy,Precision,Recall,AUC
+Voting A,0.9043,0.6913,0.9421,0.9709
+Voting B,0.9097,0.7015,0.955,0.9751
+Stacking A,0.9179,0.7361,0.9186,0.9656
+Stacking B,0.908,0.6971,0.955,0.9741
